@@ -63,20 +63,20 @@ python app.py run
 
 The program's main page is singular, the ID's assigned, are unique to all the events that are added to the database. Notice that the missing ID lines are going to be missing upon deletion in the database (IE. Database: 1-5, and you delete number #3).
 
-[![unknown-7.png]( https://i.postimg.cc/W380TCNM/unknown-7.png)]( https://postimg.cc/wyt1kWsv )
+[![unknown-7.png]( https://i.postimg.cc/W380TCNM/unknown-7.png)]( https://postimg.cc/wyt1kWsv ) !]
 
 
 ###  Adding a incident
 
 A new incident/event can be added by entering the date, name, and the required information needed, like the free comment section. A new ID is assigned to each added line of events.
 
-[![unknown-9.png]( https://i.postimg.cc/7YGJWf21/unknown-9.png )]( https://postimg.cc/VdwNSs45 )
+[![unknown-9.png]( https://i.postimg.cc/7YGJWf21/unknown-9.png )]( https://postimg.cc/VdwNSs45 ) !]
 
 ###  Updating an event information
 
 The current information of a already added incident/event can be updated quickly, just use the Edit function on the page to reorganize the event information.
 
-[![unknown-8.png]( https://i.postimg.cc/cL3Yrr11/unknown-8.png)]( https://postimg.cc/FY916FJw )
+[![unknown-8.png]( https://i.postimg.cc/cL3Yrr11/unknown-8.png)]( https://postimg.cc/FY916FJw ) !]
 
 ###  MySQL database using the XAMPP server
 
