@@ -1,0 +1,308 @@
+{% extends 'base.html' %}
+{% include 'header.html' %}
+  
+
+{% block title %} Home {% endblock %}
+ 
+ 
+{% block body %}
+
+<!----====Vendor Script=====---->
+<script src="vendor/datepicker/build/js/bootstrap-datetimepicker.min.js"></script> 
+<!-- =============== BOOTSTRAP STYLES ===============-->
+<link rel="stylesheet" href="app/css/bootstrap.css" id="bscss">
+<link rel="stylesheet" href="vendor/datepicker/build/css/bootstrap-datetimepicker.min.css">
+
+<div class="container">
+    <div class="row">
+        <div class="col md-12">
+ 
+            <div class="jumbotron p-3">
+ 
+                <h2>Events <button type="button"  class="btn btn-success float-right"
+                data-toggle="modal" data-target="#mymodal">Add a new Incident</button> </h2><br>
+ 
+                {% with messages = get_flashed_messages() %}
+ 
+                {% if messages %}
+ 
+                {% for message in messages %}
+ 
+                <div class="alert alert-success alert-dismissable" role="alert">
+ 
+                    <button type="button" class="close" data-dismiss="alert" aria-label="close">
+ 
+                        <span aria-hidden="true">x</span>
+ 
+                    </button>
+ 
+                    {{message}}
+ 
+                </div>
+ 
+                {% endfor %}
+                {% endif %}
+                {% endwith %}
+ 
+                <table class="table table-hover table-dark">
+ 
+                    <tr>
+                        <th>ID</th>
+                        <th>Date</th>
+                        <th>Name</th>
+                        <th>Machine ID</th>
+                        <th>Material Code</th>
+                        <th>Cell ID</th>
+                        <th>Assembly Code</th>
+                        <th>Comment</th>
+                        <th>Action</th>
+ 
+                    </tr>
+ 
+                   {% for row in data %}
+
+                    <tr>
+                        <td>{{row.id}}</td>
+                        <td>{{row.date}}</td>
+                        <td>{{row.name}}</td>
+                        <td>{{row.machine_id}}</td>
+                        <td>{{row.material}}</td>
+                        <td>{{row.cell_id}}</td>
+                        <td>{{row.assembly_code}}</td>
+                        <td>{{row.comment}}</td>
+ 
+                        <td>
+                            <a href="/update/{{row.id}}" class="btn btn-warning btn-xs" data-toggle="modal" data-target="#modaledit{{row.id}}">Edit</a>
+                            <a href="/delete/{{row.id}}" class="btn btn-danger btn-xs" onclick="return confirm('Are you sure you want to delete the Incident ?')">Delete</a>
+ 
+ 
+                        </td>
+ 
+                    </tr>
+ 
+                    <!-- Modal for Editing Incidents-->
+                    <div id="modaledit{{row.id}}" class="modal fade" role="dialog">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                        
+                                <div class="modal-header">
+                                    <h4 class="modal-title">Update Information</h4>
+                                </div>
+                        
+                                <div class="modal-body">
+                                    <form action="{{url_for('update')}}" method="POST">
+
+                                        <div class="form-group">
+
+                                            <label>Name:</label>
+                                            <input type="hidden"  name="id" value="{{row.id}}">
+                                            <input type="text" class="form-control" name="name" value="{{row.name}}" required="2">
+                            
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label class="col-lg-2 control-label">Date:</label>
+                                            <input type="hidden"  name="id" value="{{row.id}}">
+                                            <input type="datetime-local" id="date"
+                                            name="date" value="{{row.date}}"
+                                            min="2018-12-31T00:00" max="9999-12-30T00:00" required="1">
+                                        
+                                        
+                                        </div>
+                            
+                                        <div class="form-group">
+                            
+                                            <label>Machine Id:</label>
+                                            <input type="hidden"  name="id" value="{{row.id}}">
+                                            <select name="machine_id" id="machine_id" value="{{row.machine_id}}">
+                                            <option value="placeholder1" selected>Placeholder</option>
+                                            <option value="general" selected>General</option>
+                                            <option value="placeholder2" selected>Placeholder-2</option>
+                                            </select>
+                                            
+                            
+                                        </div>
+                            
+                                        <div class="form-group">
+                            
+                                            <label>Material Code:</label>
+                                            <input type="hidden"  name="id" value="{{row.id}}">
+                                            <select name="material" id="material" value="{{row.material}}>
+                                            <option value="nomaterial" selected>12 No Material</option>
+                                            <option value="materialquality" selected>13 Material Quality</option>
+                                            <option value="materialmodifying" selected>14 Material Modifying</option>
+                                            <option value="materialsorting" selected>15 Material Sorting</option>
+                                            <option value="netsuite" selected>16 Netsuite</option>
+                                            <option value="oracle" selected>22 Oracle</option>
+                                            <option value="internetmalfunction" selected>23 Internet Malfunction</option>
+                                            <option value="brokenmachine" selected>30 Broken Machinery</option>
+                                            <option value="guidance" selected>40 Guidance</option>
+                                            <option value="introduction" selected>41 Introduction</option>
+                                            <option value="training" selected>42 Training</option>
+                                            <option value="Research" selected>50 Research & Development</option>
+                                            <option value="testproduct" selected>60 Test products</option>
+                                            <option value="rework" selected>70 Rework</option>
+                                            <option value="other" selected>80 Other Reason</option>
+                                            </select>
+                                            
+                            
+                                        </div>
+
+                                        <div class="form-group">
+                            
+                                            <label>Cell ID:</label>
+                                            <input type="hidden"  name="id" value="{{row.id}}">
+                                            <input type="varchar" class="form-control" name="cell_id" id="cell_id" value="{{row.cell_id}}">
+                            
+                                        </div>
+
+                                        <div class="form-group">
+                            
+                                            <label>Assembly Code:</label>
+                                            <input type="hidden"  name="id" value="{{row.id}}">
+                                            <input type="varchar" class="form-control" name="assembly_code" id="assembly_code" value="{{row.assembly_code}}">
+                            
+                                        </div>
+
+                                        <div class="form-group">
+                            
+                                            <label> Comment:</label>
+                                            <input type="hidden"  name="id" value="{{row.id}}">
+                                            <input type="text" class="form-control" name="comment" id="comment" value="{{row.comment}}">
+                            
+                                        </div>
+                            
+                                        <div class="form-group">
+                            
+                                            <button class="btn btn-primary" type="submit">Update</button>
+                            
+                                        </div>
+                            
+                                    </form>
+                        
+                                </div>
+                        
+                                <div class="modal-footer">
+                        
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        
+                                </div>
+                        
+                            </div>
+                        </div>
+                    </div>
+ 
+                    {% endfor %}
+ 
+                </table>
+            </div>
+ 
+            <!-- Modal Add Incident-->
+ 
+ 
+            <div id="mymodal" class="modal fade" role="dialog">
+            <div class="modal-dialog">
+                <div class="modal-content">
+
+                    <div class="modal-header">
+            
+                        <h4 class="modal-title">Add Incident Report</h4>
+
+                    </div>
+
+                    <div class="modal-body">
+            
+                        <form action="{{url_for('insert')}}" method="POST">
+            
+                            <div class="form-group">
+                                <label>Date:</label>
+                                <input type="datetime-local" id="date" name="date" 
+                                min="2018-12-30T00:00" max="9999-12-30T00:00" required="1">
+
+                            </div>
+
+                            <div class="form-group">
+                
+                                <label>Name:</label>
+                                <input type="text" class="form-control" name="name" required="2">
+                
+                            </div>
+                
+                            <div class="form-group">
+            
+                                <label>Machine Id:</label>
+                                <select name="machine_id" id="machine_id">
+                                <option value="placeholder1" selected>Placeholder</option>
+                                <option value="general" selected>General</option>
+                                <option value="placeholder2" selected>Placeholder-2</option>
+                                </select>
+                
+                            </div>
+                
+                            <div class="form-group">
+                
+                                <label>Material Code:</label>
+                                <select name="material" id="material">
+                                <option value="nomaterial" selected>12 No Material</option>
+                                <option value="materialquality" selected>13 Material Quality</option>
+                                <option value="materialmodifying" selected>14 Material Modifying</option>
+                                <option value="materialsorting" selected>15 Material Sorting</option>
+                                <option value="netsuite" selected>16 Netsuite</option>
+                                <option value="oracle" selected>22 Oracle</option>
+                                <option value="internetmalfunction" selected>23 Internet Malfunction</option>
+                                <option value="brokenmachine" selected>30 Broken Machinery</option>
+                                <option value="guidance" selected>40 Guidance</option>
+                                <option value="introduction" selected>41 Introduction</option>
+                                <option value="training" selected>42 Training</option>
+                                <option value="Research" selected>50 Research & Development</option>
+                                <option value="testproduct" selected>60 Test products</option>
+                                <option value="rework" selected>70 Rework</option>
+                                <option value="other" selected>80 Other Reason</option>
+                                </select>
+
+                
+                            </div>
+
+                            <div class="form-group">
+                
+                                <label>Cell ID:</label>
+                                <input type="varchar" class="form-control" name="cell_id" required="2">
+                
+                            </div>
+                            <div class="form-group">
+                
+                                <label>Assembly Code:</label>
+                                <input type="varchar" class="form-control" name="assembly_code" >
+                
+                            </div>
+
+                            <div class="form-group">
+                
+                                <label>Comment:</label>
+                                <input type="text" class="form-control" name="comment">
+                
+                            </div>
+                    
+                            <div class="form-group">    
+                
+                                <button class="btn btn-primary" type="submit">Add Incident</button>
+                
+                            </div>
+            
+                        </form>
+            
+                    </div>
+            
+                    <div class="modal-footer">
+            
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            
+                    </div>
+                </div>
+            </div>
+            </div> 
+        </div>
+    </div>
+</div>
+ 
+{% endblock %}
